@@ -19,10 +19,3 @@ class SignUpForm(UserCreationForm):
         fields = UserCreationForm.Meta.fields + ('first_name',
                                                  'last_name',
                                                  'email')
-
-# Test Form
-
-
-class NameForm (forms.Form):
-    your_name = forms.CharField(label="You Name", max_length=100)
-    eye_colour = forms.CharField(label="Colour of your eyes", max_length=30)

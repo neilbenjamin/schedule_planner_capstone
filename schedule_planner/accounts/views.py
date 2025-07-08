@@ -8,33 +8,52 @@ from .forms import SignUpForm
 
 
 def accounts_index(request: HttpRequest) -> HttpRequest:
-    """Accvess rerquest object data.
-    Args:
-        request (HttpRequest): Object
-    Returns:
-        HttpRequest: Return Http Response Object
+    """
+    Accesses request object data for the profile page.
+
+    :param request: The HTTP request object.
+
+    :type request: HttpRequest
+
+    :returns: An HTTP response object that will eventually render the
+     profile page.
+
+    :rtype: HttpRequest
     """
     return HttpResponse('<h2>This will become the profile page</h2>')
 
 
 def user_login(request: HttpRequest) -> HttpRequest:
-    """Request object data
-    Args:
-        request (HttpRequest): Login Data Object
+    """
+    Handles user login requests.
 
-    Returns:
-        HttpRequest: Returns the login page html
+    :param request: The HTTP request object, containing login data if POST.
+
+    :type request: HttpRequest
+
+    :returns: Renders the login page HTML.
+
+    :rtype: HttpRequest
     """
     return render(request, 'authentication/login.html')
 
 
 def register(request: HttpRequest) -> HttpRequest:
-    """Request object data from the register form.
-    Args:
-        request (HttpRequest): Register Form Object
-    Returns:
-        HttpRequest: Saved user details to the db and renders the signup
-        html form.
+    """
+    Handles user registration requests.
+
+    Processes the registration form, saves user details, and renders
+    the signup HTML form.
+
+    :param request: The HTTP request object, containing
+     registration form data if POST.
+
+    :type request: HttpRequest
+
+    :returns: Redirects to the login page on successful registration,
+              otherwise renders the signup form with errors.
+
+    :rtype: HttpRequest
     """
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -55,11 +74,18 @@ def register(request: HttpRequest) -> HttpRequest:
 
 
 def authenticate_user(request: HttpRequest) -> HttpRequest:
-    """ Data Object
-    Args:
-        request (HttpRequest): User Login Data
-    Returns:
-        HttpRequest: Validates the user data submitted via the login page
+    """
+    Authenticates user data submitted via the login page.
+
+    :param request: The HTTP request object, containing user
+     login data if POST.
+
+    :type request: HttpRequest
+
+    :returns: Redirects to the planner index on successful authentication,
+              otherwise re-renders the login page with errors.
+
+    :rtype: HttpRequest
     """
     if request.method == 'POST':
         # Create a form instance and populate it with data from the request
@@ -83,11 +109,16 @@ def authenticate_user(request: HttpRequest) -> HttpRequest:
 
 
 def logout_view(request: HttpRequest) -> HttpRequest:
-    """GET Request Object
-    Args:
-        request (HttpRequest): GET Request
-    Returns:
-        HttpRequest: Get Requets to logout
+    """
+    Handles user logout requests.
+
+    :param request: The HTTP request object.
+
+    :type request: HttpRequest
+
+    :returns: Redirects the user to the login page after logging out.
+
+    :rtype: HttpRequest
     """
     logout(request)
     return redirect('accounts:login')
@@ -96,12 +127,16 @@ def logout_view(request: HttpRequest) -> HttpRequest:
 
 
 def show_user(request: HttpRequest) -> HttpRequest:
-    """Request Object logged in user details
-    Args:
-        request (HttpRequest): Object
+    """
+    Displays details for the logged-in user.
 
-    Returns:
-        HttpRequest: Return html with profile view
+    :param request: The HTTP request object, containing logged-in user details.
+
+    :type request: HttpRequest
+
+    :returns: Renders HTML with the user's profile view.
+
+    :rtype: HttpRequest
     """
     print(request.user.username)
     return render(request, 'authentication/user.html', {

@@ -18,8 +18,10 @@ import os
 import dj_database_url  # Already there, good!
 
 # Add this import for WhiteNoise static files (after installing WhiteNoise)
-# from whitenoise.storage import CompressedManifestStaticFilesStorage # For older Django/WhiteNoise
-# For Django 4.0+ and WhiteNoise 6.0+, this is typically how you set it up in STORAGES
+# from whitenoise.storage import CompressedManifestStaticFilesStorage # For
+# older Django/WhiteNoise
+# For Django 4.0+ and WhiteNoise 6.0+, this is typically how you set it up
+# in STORAGES
 # However, for simplicity, we'll configure it directly in STATICFILES_STORAGE
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -32,21 +34,36 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 # Use an environment variable for SECRET_KEY in production!
 
+# Security settings for production
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://schedule-planner-rvy8.onrender.com',
+    # Add any other origins if your site can be embedded or has other entry
+    #  points,
+    # e.g., 'https://www.yourcustomdomain.com' if you add one later
+]
+
 SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-&tlrs71*5ho#q+aw3#-c^e$uf!nv66ri")
 # The hardcoded string is a fallback for local dev if the env var isn't set,
 # but ensure the env var is set on Render.
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # Control DEBUG with an environment variable
-DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
-# DEBUG = False  # TEMPORARY: Set to True for local debugging
+# DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
+DEBUG = True  # TEMPORARY: Set to True for local debugging
 
 # Set ALLOWED_HOSTS dynamically for Render
 # Render automatically sets the RENDER_EXTERNAL_HOSTNAME environment variable.
 # For local development, it will default to localhost and 127.0.0.1
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
-if 'RENDER_EXTERNAL_HOSTNAME' in os.environ:
-    ALLOWED_HOSTS.append(os.environ['RENDER_EXTERNAL_HOSTNAME'])
+ALLOWED_HOSTS = [
+    '127.0.0.1',  # For local development
+    'localhost',  # For local development
+    'schedule-planner-rvy8.onrender.com',  # Your specific Render URL
+    # Add any custom domains here later if you use them, e.g.,
+    #  'www.yourdomain.com'
+]
 
 
 # Application definition

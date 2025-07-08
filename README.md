@@ -1,28 +1,30 @@
 # Django Schedule Planner
 
-Basic schedule planner to assist event coordinators with planning with entertainers and event crew over a given period of time. Admin users will have access to CRUD functionality while mid management will have access to the schedules. 
+Basic schedule planner to assist event coordinators with planning with entertainers and event crew over a given period of time. Admin users will have access to CRUD functionality while mid management will have access to the schedules.
 
 ## Table of contents
-- 1 Features
-- 2 Installation 
-- 3 ENV Variables
-- 4 App operation
-- 5 Images
-- 6 Deployment
-- 7 License
+- [1. Features](#1-features)
+- [2. How to Install](#2-how-to-install)
+- [3. Environment Variables](#3-environment-variables)
+- [4. App Operation](#4-app-operation)
+- [5. Images](#5-images)
+- [6. Deployment](#6-deployment)
+- [7. License](#7-license)
+- [8. Docker Usage](#8-docker-usage)
+- [9. Building Documentation (Sphinx)](#9-building-documentation-sphinx)
 
 ## 1. Features
 
 - Django 5.2.1
 - Collection of custom extensions with [django-extensions](http://django-extensions.readthedocs.org).
 - HTTPS and other security related settings on Staging and Production.
-- Procfile for running gunicorn with Render. 
-- PostgreSQL database in production mode and SQLite in development mode. 
+- Procfile for running gunicorn with Render.
+- PostgreSQL database in production mode and SQLite in development mode.
 - Crispy Forms and Bootstrap for styling
 - PostgreSQL database support with psycopg2.
 - Whitenoise for managing static transfers
 
-## 2. How to install
+## 2. How to Install
 
 ### 🚀 Getting Started
 
@@ -81,16 +83,6 @@ Follow these steps to set up and run the project locally.
     ```
     The application should now be accessible at `http://127.0.0.1:8000/`.
 
-```bash
-$ django-admin.py startproject \
-  --template=https://github.com/jpadilla/django-project-template/archive/master.zip \
-  --name=Procfile \
-  --extension=py,md,env \
-  project_name
-$ mv example.env .env
-$ pipenv install --dev
-```
-
 ## 3. Environment Variables
 
 Your project is configured to use environment variables for sensitive data and deployment-specific settings. You will need to set these variables in your deployment environment (e.g., in the "Environment" section of your web service on the Render Dashboard).
@@ -124,14 +116,15 @@ Your project is configured to use environment variables for sensitive data and d
     * **Example:** `ALLOWED_HOSTS='your-app-name.onrender.com,www.your-custom-domain.com'`
     * **Note:** Your `settings.py` is configured to automatically include Render's external hostname (`RENDER_EXTERNAL_HOSTNAME`) if it's available, so you might only need to set this for additional custom domains.
 
-## 4. Use 
-- Create an account
-- Log in 
-- View schedule
-- add, update or delete
-- Contact Admin
+## 4. App Operation
 
-## 5 Images
+-   Create an account
+-   Log in
+-   View schedule
+-   Add, update, or delete entries
+-   Contact Admin
+
+## 5. Images
 
 Here are some screenshots and visual aids for the Schedule Planner:
 
@@ -153,21 +146,75 @@ Here are some screenshots and visual aids for the Schedule Planner:
 * **User Registration:**
     ![User Registration Page](schedule_planner/images/register.png)
 
-
 ## 6. Deployment
 
-You can deploy to your choice of deployment options and based on those, you 
-may need to reconfigure your settings to match the host deployment reqeuirements.
+You can deploy to your choice of deployment options and based on those, you may need to reconfigure your settings to match the host deployment requirements.
 
 ## 7. License
 
 Copyright (c) 2025 Neil Benjamin
 
-Permission is restricted for any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-of the Software.
+Permission is restricted for any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software.
 
 ## Quick Links
-- [gitHub](https://github.com/neilbenjamin/01_schedule_planner/blob/main/README.md)# schedule_planner_capstone
+
+-   [GitHub](https://github.com/neilbenjamin/01_schedule_planner/blob/main/README.md)
+
+---
+
+## 8. Docker Usage
+
+This project includes a `Dockerfile` for containerizing the Django application, making it easy to build, ship, and run in various environments. The `Dockerfile` is located in the root directory of the project.
+
+### Building the Docker Image
+
+To build the Docker image for your application, navigate to the root directory of the project in your terminal (where the `Dockerfile` resides) and run:
+
+```bash
+docker build --platform linux/amd64 -t schedule-planner-app .
+```
+Be aware of what architechture you;re using as older machines won't be able to run the arm64 architechture. This bulid was done to emulate the linux/amd64 set up which is widely used for Render and Dockerplay. If you are running a new amr64 architecture machine, you may receive a warning stating that the build is meant for linux/amd64, but you can ignore 
+that and navigate to your localhost:8000 and your app will be available, locally. For production, pleas refer to No. 6
+
+## 9. Building Documentation (Sphinx)
+
+This project's documentation is built using [Sphinx](https://www.sphinx-doc.org/en/master/). The source files for the documentation are located in the `schedule_planner/docs/` directory. The generated documentation (e.g., HTML files) is excluded from Git to keep the repository lean.
+
+To build and view the documentation locally:
+
+1.  **Prerequisites:**
+    * Ensure you have Sphinx installed in your project's virtual environment. It's listed in `requirements.txt`, so it will be installed along with other dependencies during the standard installation:
+        ```bash
+        pip install -r requirements.txt
+        ```
+    * (Optional, but good practice): If you plan to build the docs, ensure your project's `schedule_planner` app is on your Python path, for example by running from the project root:
+        ```bash
+        export PYTHONPATH=$PYTHONPATH:$(pwd)
+        ```
+
+2.  **Navigate to the Documentation Source Directory:**
+    ```bash
+    cd schedule_planner/docs/
+    ```
+
+3.  **Build the HTML Documentation:**
+    Run the Sphinx build command. This will generate the HTML files in the `_build/html` subdirectory within the `schedule_planner/docs/` folder.
+    ```bash
+    sphinx-build -b html . _build/html
+    ```
+    * `sphinx-build`: The Sphinx builder command.
+    * `-b html`: Specifies that HTML output should be generated.
+    * `.`: Indicates the source directory for the documentation (the current directory, `schedule_planner/docs/`).
+    * `_build/html`: The target directory where the generated HTML files will be placed.
+
+4.  **View the Documentation:**
+    Once the build is complete, you can open the main `index.html` file in your web browser. From the `schedule_planner/docs/` directory:
+    ```bash
+    # On macOS:
+    open _build/html/index.html
+    # On Windows (Command Prompt):
+    start _build/html/index.html
+    # On Linux (various desktop environments):
+    xdg-open _build/html/index.html
+    # Alternatively, you can manually navigate to the file in your browser's file open dialog.
+    ```

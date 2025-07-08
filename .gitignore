@@ -19,3 +19,6 @@ venv/
 *.pot
 *.mo
 .DS_Store # macOS specific
+
+# macOS specific files
+.DS_Store

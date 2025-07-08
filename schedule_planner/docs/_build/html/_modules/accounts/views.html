@@ -1,0 +1,264 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>accounts.views &mdash; schedule_planner V1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=7351be05"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            schedule_planner
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">schedule_planner</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">schedule_planner</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">accounts.views</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for accounts.views</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">django.shortcuts</span><span class="w"> </span><span class="kn">import</span> <span class="n">render</span><span class="p">,</span> <span class="n">redirect</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.http</span><span class="w"> </span><span class="kn">import</span> <span class="n">HttpRequest</span><span class="p">,</span> <span class="n">HttpResponse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth</span><span class="w"> </span><span class="kn">import</span> <span class="n">authenticate</span><span class="p">,</span> <span class="n">login</span><span class="p">,</span> <span class="n">logout</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.contrib.auth.forms</span><span class="w"> </span><span class="kn">import</span> <span class="n">AuthenticationForm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.forms</span><span class="w"> </span><span class="kn">import</span> <span class="n">SignUpForm</span>
+
+<span class="c1"># Create your views here.</span>
+
+
+<div class="viewcode-block" id="accounts_index">
+<a class="viewcode-back" href="../../accounts.html#accounts.views.accounts_index">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">accounts_index</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HttpRequest</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Accesses request object data for the profile page.</span>
+
+<span class="sd">    :param request: The HTTP request object.</span>
+
+<span class="sd">    :type request: HttpRequest</span>
+
+<span class="sd">    :returns: An HTTP response object that will eventually render the</span>
+<span class="sd">     profile page.</span>
+
+<span class="sd">    :rtype: HttpRequest</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s1">&#39;&lt;h2&gt;This will become the profile page&lt;/h2&gt;&#39;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="user_login">
+<a class="viewcode-back" href="../../accounts.html#accounts.views.user_login">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">user_login</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HttpRequest</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Handles user login requests.</span>
+
+<span class="sd">    :param request: The HTTP request object, containing login data if POST.</span>
+
+<span class="sd">    :type request: HttpRequest</span>
+
+<span class="sd">    :returns: Renders the login page HTML.</span>
+
+<span class="sd">    :rtype: HttpRequest</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;authentication/login.html&#39;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="register">
+<a class="viewcode-back" href="../../accounts.html#accounts.views.register">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">register</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HttpRequest</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Handles user registration requests.</span>
+
+<span class="sd">    Processes the registration form, saves user details, and renders</span>
+<span class="sd">    the signup HTML form.</span>
+
+<span class="sd">    :param request: The HTTP request object, containing</span>
+<span class="sd">     registration form data if POST.</span>
+
+<span class="sd">    :type request: HttpRequest</span>
+
+<span class="sd">    :returns: Redirects to the login page on successful registration,</span>
+<span class="sd">              otherwise renders the signup form with errors.</span>
+
+<span class="sd">    :rtype: HttpRequest</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">SignUpForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Form errors:&quot;</span><span class="p">,</span> <span class="n">form</span><span class="o">.</span><span class="n">errors</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="c1"># Set Password</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">commit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="c1"># Clean Inputs</span>
+            <span class="n">user</span><span class="o">.</span><span class="n">set_password</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s1">&#39;password1&#39;</span><span class="p">])</span>
+            <span class="c1"># Save Form Input</span>
+            <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="c1"># Conditionally log user in if required, or redirect:</span>
+            <span class="c1"># login(request, user)</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;accounts:login&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">SignUpForm</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;authentication/register.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">})</span></div>
+
+
+
+<div class="viewcode-block" id="authenticate_user">
+<a class="viewcode-back" href="../../accounts.html#accounts.views.authenticate_user">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">authenticate_user</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HttpRequest</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Authenticates user data submitted via the login page.</span>
+
+<span class="sd">    :param request: The HTTP request object, containing user</span>
+<span class="sd">     login data if POST.</span>
+
+<span class="sd">    :type request: HttpRequest</span>
+
+<span class="sd">    :returns: Redirects to the planner index on successful authentication,</span>
+<span class="sd">              otherwise re-renders the login page with errors.</span>
+
+<span class="sd">    :rtype: HttpRequest</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="c1"># Create a form instance and populate it with data from the request</span>
+        <span class="c1"># Bind POST data to the form</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">AuthenticationForm</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">username</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">)</span>
+            <span class="n">password</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">)</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="n">authenticate</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">user</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># Authentication successful</span>
+                <span class="n">login</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
+                <span class="c1"># Redirect to your schedule view after successful login</span>
+                <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;planner:index&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">form</span><span class="o">.</span><span class="n">add_error</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Invalid username or password.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># This block handles GET requests (initial page load for the form)</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">AuthenticationForm</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;authentication/login.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;form&quot;</span><span class="p">:</span> <span class="n">form</span><span class="p">})</span></div>
+
+
+
+<div class="viewcode-block" id="logout_view">
+<a class="viewcode-back" href="../../accounts.html#accounts.views.logout_view">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">logout_view</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HttpRequest</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Handles user logout requests.</span>
+
+<span class="sd">    :param request: The HTTP request object.</span>
+
+<span class="sd">    :type request: HttpRequest</span>
+
+<span class="sd">    :returns: Redirects the user to the login page after logging out.</span>
+
+<span class="sd">    :rtype: HttpRequest</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">logout</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;accounts:login&#39;</span><span class="p">)</span></div>
+
+
+<span class="c1"># Unused view for now. Will turn into profile view next</span>
+
+
+<div class="viewcode-block" id="show_user">
+<a class="viewcode-back" href="../../accounts.html#accounts.views.show_user">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">show_user</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HttpRequest</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Displays details for the logged-in user.</span>
+
+<span class="sd">    :param request: The HTTP request object, containing logged-in user details.</span>
+
+<span class="sd">    :type request: HttpRequest</span>
+
+<span class="sd">    :returns: Renders HTML with the user&#39;s profile view.</span>
+
+<span class="sd">    :rtype: HttpRequest</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;authentication/user.html&#39;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+        <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">password</span>
+    <span class="p">})</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Neil.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

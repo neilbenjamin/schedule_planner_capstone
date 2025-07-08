@@ -10,13 +10,19 @@ from .forms import EventForm, ContactForm
 
 @login_required
 def index(request: HttpRequest) -> HttpRequest:
-    """GET request that displays the main schedule for logged in users ordered
-    by date and time.
-    Args:
-        request (HttpRequest): GET request
+    """
+    Displays the main event schedule for logged-in users.
 
-    Returns:
-        HttpRequest: html page with the schedules
+    Events are ordered by date and start time. Superusers see a different
+    template ('planner.html') than regular users ('planner_client.html').
+
+    :param request: The HTTP request object.
+
+    :type request: HttpRequest
+
+    :returns: An HTTP response rendering the appropriate schedule HTML page.
+
+    :rtype: HttpRequest
     """
     # Display full entertainment schedule
     events = Event.objects.all().order_by('date', 'performance_time_start')
@@ -28,20 +34,25 @@ def index(request: HttpRequest) -> HttpRequest:
     else:
         return render(request, 'pages/planner_client.html', context)
 
-    # return render(request, 'pages/planner.html', {'events': events})
-
 
 @login_required
 @permission_required('planner.add_event', raise_exception=True)
 def add_event(request: HttpRequest) -> HttpRequest:
-    """GET/POST request from form that either displays a blank, new form for
-    registation on a GET request, or saves the details to the db for a POST
-    request if the user is logged in.
-    Args:
-        request (HttpRequest): GET.POST Request Object
+    """
+    Handles adding new events to the database.
 
-    Returns:
-        HttpRequest: add user html template.
+    On a GET request, it displays a blank form. On a POST request, it
+    validates and saves the submitted event details to the database.
+    Requires 'planner.add_event' permission.
+
+    :param request: The HTTP request object (GET or POST).
+
+    :type request: HttpRequest
+
+    :returns: Redirects to the index page on successful save,
+              otherwise renders the 'add_event.html' template with the form.
+
+    :rtype: HttpRequest
     """
     # Add new events to Events DB
     # Check CRUD method
@@ -66,14 +77,26 @@ def add_event(request: HttpRequest) -> HttpRequest:
 @login_required
 @permission_required('planner.edit_event', raise_exception=True)
 def edit_event(request: HttpRequest, pk: int) -> HttpRequest:
-    """GET/POST Request object that retrieves the instance of the form and
-    allows for editing and re-saving based on the pk, thereby updating the
-    user, to logged in users.
-    Args:
-        request (HttpRequest): GET/POST Object
-    Returns:
-        HttpRequest: _description_Redirects to / or displays a blank for
-        for error.
+    """
+    Handles editing existing event records.
+
+    Retrieves an event instance based on its primary key (pk).
+    On a POST request, it updates the event details. On a GET request, it
+    displays the form pre-filled with the existing event's data.
+    Requires 'planner.edit_event' permission.
+
+    :param request: The HTTP request object (GET or POST).
+
+    :type request: HttpRequest
+
+    :param pk: The primary key of the Event instance to be edited.
+
+    :type pk: int
+
+    :returns: Redirects to the index page on successful update,
+              otherwise renders the 'add_event.html' template with the form.
+
+    :rtype: HttpRequest
     """
     # Retrieve existing event record or 404 if not found.
     event = get_object_or_404(Event, pk=pk)
@@ -92,14 +115,25 @@ def edit_event(request: HttpRequest, pk: int) -> HttpRequest:
 @login_required
 @permission_required('planner.delete_view', raise_exception=True)
 def delete_view(request: HttpRequest, pk: int) -> HttpRequest:
-    """GET/POST request object that fetches the instance of the record
-    based on the pk an removes it from the database, for logged in users.
-    Args:
-        request (HttpRequest):  GET/POST Object
-        pk (int): _description_
+    """
+    Handles deleting an event record from the database.
 
-    Returns:
-        HttpRequest: Redirects users back to the / with the omitted record.
+    Fetches the event instance by its primary key (pk). On a POST request,
+    it deletes the record. On a GET request, it displays a confirmation page.
+    Requires 'planner.delete_view' permission.
+
+    :param request: The HTTP request object (GET or POST).
+
+    :type request: HttpRequest
+
+    :param pk: The primary key of the Event instance to be deleted.
+
+    :type pk: int
+
+    :returns: Redirects to the index page after successful deletion,
+              otherwise renders the 'confirm_delete.html' template.
+
+    :rtype: HttpRequest
     """
     # Retrieve existing event record from model file with
     #  pk or 404 if not found.
@@ -118,14 +152,20 @@ def delete_view(request: HttpRequest, pk: int) -> HttpRequest:
 
 
 def contact_view(request: HttpRequest) -> HttpRequest:
-    """Saves the users input from the contact form in the ContactMessage db
-    and redirects to display page for testing purposes.
-    Args:
-        request (HttpRequest): GET/POST Object
+    """
+    Handles contact form submissions.
 
-    Returns:
-        HttpRequest: Writes user data to the db and redirects to new display
-        url.
+    On a POST request, it saves the user's input from the contact form
+    to the ContactMessage database. On a GET request, it displays a blank form.
+
+    :param request: The HTTP request object (GET or POST).
+
+    :type request: HttpRequest
+
+    :returns: Redirects to the display_message page on successful submission,
+              otherwise renders the 'contact.html' template with the form.
+
+    :rtype: HttpRequest
     """
     # get form input
     if request.method == 'POST':
@@ -141,23 +181,37 @@ def contact_view(request: HttpRequest) -> HttpRequest:
 
 
 def display_message(request: HttpRequest, pk: int) -> HttpRequest:
-    """GET request object that reads the contents of the submitted
-    user input from the contact form.
-    Args:
-        request (HttpRequest): GET Object
-    Returns:
-        HttpRequest: Displays the message.
+    """
+    Displays the contents of a submitted contact message.
+
+    Retrieves a ContactMessage instance based on its primary key (pk).
+
+    :param request: The HTTP request object.
+
+    :type request: HttpRequest
+
+    :param pk: The primary key of the ContactMessage instance to display.
+
+    :type pk: int
+
+    :returns: Renders the 'messages.html' template, displaying the message.
+
+    :rtype: HttpRequest
     """
     message = get_object_or_404(ContactMessage, pk=pk)
     return render(request, 'pages/messages.html', {'message': message})
 
 
 def conditions_view(request: HttpRequest) -> HttpRequest:
-    """GET Request object thah displays the conditions of use.
-    Args:
-        request (HttpRequest): GET Object
+    """
+    Displays the terms and conditions of use.
 
-    Returns:
-        HttpRequest: Displays the conditions
+    :param request: The HTTP request object.
+
+    :type request: HttpRequest
+
+    :returns: Renders the 'conditions.html' template, displaying
+     the conditions.
+    :rtype: HttpRequest
     """
     return render(request, 'pages/conditions.html')

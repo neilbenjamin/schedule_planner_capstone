@@ -18,7 +18,9 @@ venv/
 *.log
 *.pot
 *.mo
-.DS_Store # macOS specific
 
 # Sphinx documentation output
-schedule_planner/docs/_build/ 
+schedule_planner/docs/_build/
+
+# macOS specific files
+.DS_Store # macOS specific
